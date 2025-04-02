@@ -19,8 +19,7 @@ public class PingService {
         } catch (UnknownHostException e) {
             throw new PingException("Invalid IP address: " + ip);
         }
-
-        // 执行 ping 命令（和原代码一样）
+        
         try {
             String os = System.getProperty("os.name").toLowerCase();
             String command = os.contains("win") ? "ping -n 1 " + ip : "ping -c 1 " + ip;
