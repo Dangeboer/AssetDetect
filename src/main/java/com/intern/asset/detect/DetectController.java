@@ -1,11 +1,6 @@
-package com.intern.asset.function.detect;
+package com.intern.asset.detect;
 
 import com.intern.asset.authentication.AuthenticationService;
-import com.intern.asset.function.http.HttpService;
-import com.intern.asset.function.ping.PingService;
-import com.intern.asset.function.port.PortService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,14 +35,14 @@ public class DetectController {
             if (isIP(asset)) {
                 return pingService.ping(asset);
             } else if (isPort(asset)) {
-                return portService.scanPort(asset);
+                return portService.port(asset);
             } else if (isURL(asset)) {
-                return httpService.checkHttp(asset);
+                return httpService.http(asset);
             } else {
                 return "Input Asset is invalid.";
             }
         } catch (Exception e) {
-            throw new InvalidAssetException(e.getMessage());
+            throw new DetectException("Input Asset is invalidddd.");
         }
     }
 
