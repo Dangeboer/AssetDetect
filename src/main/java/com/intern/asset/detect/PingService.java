@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 @Service
 public class PingService {
 
-    public boolean ping(String ip) {
+    public String ping(String ip) {
         try {
             InetAddress.getByName(ip); // 检查 IP 是否有效
         } catch (UnknownHostException e) {
@@ -37,7 +37,7 @@ public class PingService {
             }
             process.waitFor();
 
-            return isReachable;
+            return isReachable ? ip + " is up!" : ip + " is down!";
         } catch (IOException e) {
             throw new PingException("I/O error while executing ping: " + e.getMessage());
         } catch (InterruptedException e) {
