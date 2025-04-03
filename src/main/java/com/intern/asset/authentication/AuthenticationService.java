@@ -6,6 +6,9 @@ import com.intern.asset.repository.UserRepository;
 import com.intern.asset.security.JwtHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class AuthenticationService {
     public UserEntity register(String username, String password, UserRole role) throws UserAlreadyExistException {
         // 检查用户名是否已存在（防止重复注册）
         if (userRepository.existsByUsername(username)) {
-            throw new UserAlreadyExistException();
+            throw new UserAlreadyExistException("Username already exists");
         }
 
         // 如果用户名不存在，使用 PasswordEncoder 对明文密码进行加密存储
@@ -49,5 +52,15 @@ public class AuthenticationService {
     public String login(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password)); // 创建认证令牌
         return jwtHandler.generateToken(username);
+    }
+
+    public boolean isAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch(role -> role.equals("ROLE_MANAGER"));
+        }
+        return false;
     }
 }
