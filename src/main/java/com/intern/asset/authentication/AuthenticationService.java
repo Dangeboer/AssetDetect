@@ -59,7 +59,7 @@ public class AuthenticationService {
         if (authentication != null && authentication.isAuthenticated()) {
             return authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
-                    .anyMatch(role -> role.equals("ROLE_MANAGER"));
+                    .anyMatch(role -> role.equals("ROLE_ADMIN"));
         }
         return false;
     }

@@ -55,7 +55,6 @@ public class UserEntity implements UserDetails {
         return role;
     }
 
-    // twitch项目里面没有是因为react里帮忙实现了
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
