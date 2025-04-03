@@ -25,9 +25,7 @@ public class AppConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                                .requestMatchers("/ping2").permitAll()
-                                .requestMatchers("/http").permitAll()
-                                .requestMatchers("/port").hasAuthority("ROLE_MANAGER")
+                                .requestMatchers("/detect").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()
