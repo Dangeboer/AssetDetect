@@ -2,6 +2,7 @@ package com.intern.asset.detect;
 
 import com.intern.asset.model.AssetResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    @GetMapping("/asset")
+    @PostMapping("/asset")
     public List<AssetResponse> probeAssets(@RequestBody List<String> assets) {
         return assetService.detect(assets);
     }
