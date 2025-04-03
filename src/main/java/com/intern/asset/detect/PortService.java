@@ -8,16 +8,16 @@ import java.net.Socket;
 
 @Service
 public class PortService {
-    public String port(String asset) {
+    public boolean port(String asset) {
         String[] assets = asset.split(":");
         String ip = assets[0];
         int port = Integer.parseInt(assets[1]);
 
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(ip, port), 1000);
-            return "Port " + port + " on " + ip + " is open!";
+            return true;
         } catch (IOException e) {
-            return "Port " + port + " on " + ip + " is closed!";
+            return false;
         }
     }
 }

@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 
 @Service
 public class PingService {
-    public String ping(String ip) {
+    public boolean ping(String ip) {
         try {
             String os = System.getProperty("os.name").toLowerCase();
             String command = os.contains("win") ? "ping -n 1 " + ip : "ping -c 1 " + ip;
@@ -25,7 +25,7 @@ public class PingService {
                 }
             }
             process.waitFor();
-            return isReachable ? ip + " is up!" : ip + " is down!";
+            return isReachable;
 
         } catch (IOException e) { // exec() 和 readLine()
             throw new DetectException("I/O error while executing ping");

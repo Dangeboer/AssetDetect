@@ -7,7 +7,7 @@ import java.net.URL;
 
 @Service
 public class HttpService {
-    public String http(String urlString) {
+    public boolean http(String urlString) {
         HttpURLConnection connection = null;
 
         try {
@@ -18,11 +18,7 @@ public class HttpService {
             connection.setReadTimeout(5000);
 
             int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                return urlString + " is up!";
-            } else {
-                return urlString + " is down!";
-            }
+            return responseCode == HttpURLConnection.HTTP_OK;
         } catch (Exception e) {
             throw new DetectException("Error accessing" + urlString);
         } finally {

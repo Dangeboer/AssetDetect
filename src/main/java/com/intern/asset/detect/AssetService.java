@@ -1,19 +1,21 @@
 package com.intern.asset.detect;
 
 import com.intern.asset.authentication.AuthenticationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.intern.asset.model.AssetResponse;
+import org.springframework.stereotype.Service;
 
-@RestController
-public class DetectController {
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class AssetService {
 
     private final HttpService httpService;
     private final PingService pingService;
     private final PortService portService;
     private final AuthenticationService authenticationService;
 
-    public DetectController(
+    public AssetService(
             HttpService httpService,
             PingService pingService,
             PortService portService,
@@ -25,10 +27,29 @@ public class DetectController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping("/detect")
-    public boolean detect(@RequestParam String asset) {
+    public List<AssetResponse> detect(List<String> assets) {
+        List<AssetResponse> results = new ArrayList<>();
+        String status;
+
+        for (String asset : assets) {
+            try {
+                if (check(asset)) {
+                    status = "Alive";
+                } else {
+                    status = "Dead";
+                }
+            } catch (DetectException e) {
+                status = e.getMessage();
+            }
+            results.add(new AssetResponse(asset, status));
+        }
+
+        return results;
+    }
+
+    public boolean check(String asset) {
         if (isPort(asset) && !authenticationService.isAdmin()) {
-            throw new DetectException("You don't have permission to detect this asset.");
+            throw new DetectException("No Permission");
         }
 
         if (isIP(asset)) {
@@ -38,7 +59,7 @@ public class DetectController {
         } else if (isURL(asset)) {
             return httpService.http(asset);
         } else {
-            throw new DetectException("Input Asset is invalid.");
+            throw new DetectException("Invalid Asset");
         }
     }
 
