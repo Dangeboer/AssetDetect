@@ -25,6 +25,7 @@ public class AppConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers("/assets").permitAll()
                                 .requestMatchers("/detect").permitAll()
                                 .anyRequest().authenticated()
                 )
