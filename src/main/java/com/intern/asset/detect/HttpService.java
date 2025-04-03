@@ -1,4 +1,4 @@
-package com.intern.asset.function.http;
+package com.intern.asset.detect;
 
 import org.springframework.stereotype.Service;
 
@@ -7,7 +7,7 @@ import java.net.URL;
 
 @Service
 public class HttpService {
-    public String checkHttp(String urlString) {
+    public String http(String urlString) {
         HttpURLConnection connection = null;
 
         try {
@@ -21,10 +21,10 @@ public class HttpService {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 return urlString + " is up!";
             } else {
-                return urlString + " is down! Status code: " + responseCode;
+                return urlString + " is down!";
             }
         } catch (Exception e) {
-            return "Error accessing " + urlString + ": " + e.getMessage();
+            throw new DetectException("Error accessing" + urlString);
         } finally {
             if (connection != null) {
                 connection.disconnect();

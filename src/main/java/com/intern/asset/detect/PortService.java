@@ -1,4 +1,4 @@
-package com.intern.asset.function.port;
+package com.intern.asset.detect;
 
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.net.Socket;
 
 @Service
 public class PortService {
-    public String scanPort(String asset) {
+    public String port(String asset) {
         String[] assets = asset.split(":");
         String ip = assets[0];
         int port = Integer.parseInt(assets[1]);
