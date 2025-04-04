@@ -25,7 +25,6 @@ public class AppConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/asset").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()
