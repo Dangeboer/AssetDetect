@@ -55,7 +55,7 @@ public class AssetService {
 
     public AssetResponse checkIfAliveOrDead(UserEntity user, String asset) {
         if (isPort(asset) && !user.getRole().equals(UserRole.ROLE_ADMIN)) {
-            return new AssetResponse(asset, "Fail", "No Permission");
+            return new AssetResponse(asset, "失败", "无权限");
         }
 
         if (isIP(asset)) {
