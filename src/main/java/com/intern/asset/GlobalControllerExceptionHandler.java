@@ -1,7 +1,6 @@
 package com.intern.asset;
 
 import com.intern.asset.authentication.UserAlreadyExistException;
-import com.intern.asset.detect.DetectException;
 import com.intern.asset.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

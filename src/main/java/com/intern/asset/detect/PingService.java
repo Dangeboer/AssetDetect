@@ -1,38 +1,29 @@
 package com.intern.asset.detect;
 
+import com.intern.asset.model.AssetResponse;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 @Service
 public class PingService {
-    public boolean ping(String ip) {
+    public AssetResponse ping(String ip) {
         try {
-            String os = System.getProperty("os.name").toLowerCase();
-            String command = os.contains("win") ? "ping -n 1 " + ip : "ping -c 1 " + ip;
-
-            Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            boolean isReachable = false;
-
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("TTL=") || line.contains("ttl=")) {
-                    isReachable = true;
-                    break;
-                }
+            Process process = Runtime.getRuntime().exec("ping -c 1 " + ip);
+            int responseCode = process.waitFor(); // 等待命令执行完毕并返回一个退出代码，0 表示成功，非 0 表示失败
+            if (responseCode == 0) {
+                return new AssetResponse(ip, "Alive", "Success");
             }
-            process.waitFor();
-            return isReachable;
+            return new AssetResponse(ip, "Dead", "Time Out");
 
-        } catch (IOException e) { // exec() 和 readLine()
-            throw new DetectException("I/O error while executing ping");
+        } catch (IOException e) { // exec()
+            return new AssetResponse(ip, "Fail", "Unknown Host");
+//            throw new DetectException("Unknown Host"); // command 不合法
 
         } catch (InterruptedException e) { // waitFor()
             Thread.currentThread().interrupt();
-            throw new DetectException("Ping command was interrupted.");
+            return new AssetResponse(ip, "Fail", "Command Interruption");
+//            throw new DetectException("Command Interruption"); // 当前线程被中断
         }
     }
 }

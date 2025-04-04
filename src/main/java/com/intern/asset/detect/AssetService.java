@@ -27,29 +27,19 @@ public class AssetService {
         this.authenticationService = authenticationService;
     }
 
-    public List<AssetResponse> detect(List<String> assets) {
+    public List<AssetResponse> detectEachAsset(List<String> assets) {
         List<AssetResponse> results = new ArrayList<>();
-        String status;
 
         for (String asset : assets) {
-            try {
-                if (check(asset)) {
-                    status = "Alive";
-                } else {
-                    status = "Dead";
-                }
-            } catch (DetectException e) {
-                status = e.getMessage();
-            }
-            results.add(new AssetResponse(asset, status));
+            results.add(checkIfAliveOrDead(asset));
         }
 
         return results;
     }
 
-    public boolean check(String asset) {
+    public AssetResponse checkIfAliveOrDead(String asset) {
         if (isPort(asset) && !authenticationService.isAdmin()) {
-            throw new DetectException("No Permission");
+            return new AssetResponse(asset, "Fail", "No Permission");
         }
 
         if (isIP(asset)) {
@@ -58,9 +48,8 @@ public class AssetService {
             return portService.port(asset);
         } else if (isURL(asset)) {
             return httpService.http(asset);
-        } else {
-            throw new DetectException("Invalid Asset");
         }
+        return new AssetResponse(asset, "Fail", "Unknown Asset");
     }
 
     private boolean isIP(String asset) {
