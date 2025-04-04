@@ -30,7 +30,6 @@ public class HttpService {
             return new AssetResponse(urlString, "Dead", String.valueOf(responseCode));
 
         } catch (IOException e) { // 网络连接失败或超时 // openConnection(), setRequestMethod("GET"), getResponseCode()
-//            throw new DetectException("Error Access");
             return new AssetResponse(urlString, "Fail", "Error Access");
         } finally {
             // 确保连接关闭

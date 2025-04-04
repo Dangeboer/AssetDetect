@@ -18,12 +18,10 @@ public class PingService {
 
         } catch (IOException e) { // exec()
             return new AssetResponse(ip, "Fail", "Unknown Host");
-//            throw new DetectException("Unknown Host"); // command 不合法
 
         } catch (InterruptedException e) { // waitFor()
             Thread.currentThread().interrupt();
             return new AssetResponse(ip, "Fail", "Command Interruption");
-//            throw new DetectException("Command Interruption"); // 当前线程被中断
         }
     }
 }

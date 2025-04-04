@@ -24,7 +24,6 @@ public class PortService {
 
         } catch (IOException e) {
             return new AssetResponse(asset, "Fail", "Unknown Host");
-//            throw new DetectException("Unknown Host");
         }
     }
 }
