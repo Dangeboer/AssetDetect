@@ -36,7 +36,6 @@ public class UserEntity implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    // 四个getter函数，如果要改变还可以加setter
     @Override
     public String getPassword() {
         return password;

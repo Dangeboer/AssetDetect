@@ -16,7 +16,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    // Spring Security 在用户登录时会调用 loadUserByUsername() 方法，获取用户的 用户名、密码、角色、权限 等信息
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails userDetails = userRepository.findByUsername(username);
         if (userDetails == null) {

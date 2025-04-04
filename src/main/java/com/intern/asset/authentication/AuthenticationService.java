@@ -39,13 +39,7 @@ public class AuthenticationService {
         userRepository.save(userEntity);
     }
 
-    // authenticationManager.authenticate() 负责验证用户名和密码：
-    //      UsernamePasswordAuthenticationToken(username, password) 创建认证令牌。
-    //      authenticationManager 会将这个令牌交给 AuthenticationProvider 进行身份验证（通常是 DaoAuthenticationProvider）。
-    //      验证通过后，Spring Security 会在上下文中存储 SecurityContextHolder，表示用户已登录。
-    // 认证通过后，调用 jwtHandler.generateToken(username) 生成 JWT 令牌，并返回给前端。
-
-    // 总之就是生成一个JWT(String)，返回给前端
+    // 生成一个JWT(String)，返回给前端
     public String login(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password)); // 创建认证令牌
         return jwtHandler.generateToken(username);
