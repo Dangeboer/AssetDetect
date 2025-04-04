@@ -43,9 +43,9 @@ public class AssetService {
             try {
                 results.add(future.get()); // future.get() 会阻塞当前线程（调用future.get()的线程），直到所有任务执行完毕并返回结果
             } catch (InterruptedException e) {
-                throw new DetectException("Command Interruption");
+                throw new DetectException("线程中断");
             } catch (ExecutionException e) {
-                throw new DetectException("Execution Exception");
+                throw new DetectException("执行异常");
             }
         }
 
@@ -66,7 +66,7 @@ public class AssetService {
             return httpService.http(asset);
         }
 
-        return new AssetResponse(asset, "Fail", "Unknown Asset");
+        return new AssetResponse(asset, "失败", "未知资产");
     }
 
     private boolean isIP(String asset) {

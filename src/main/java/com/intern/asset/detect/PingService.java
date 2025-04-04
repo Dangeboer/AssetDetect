@@ -12,16 +12,16 @@ public class PingService {
             Process process = Runtime.getRuntime().exec("ping -c 1 " + ip);
             int responseCode = process.waitFor(); // 等待命令执行完毕并返回一个退出代码，0 表示成功，非 0 表示失败
             if (responseCode == 0) {
-                return new AssetResponse(ip, "Alive", "Success");
+                return new AssetResponse(ip, "存活", "探测成功");
             }
-            return new AssetResponse(ip, "Dead", "Time Out");
+            return new AssetResponse(ip, "不存活", "探测超时");
 
         } catch (IOException e) { // exec()
-            return new AssetResponse(ip, "Fail", "Unknown Host");
+            return new AssetResponse(ip, "失败", "未知地址");
 
         } catch (InterruptedException e) { // waitFor()
             Thread.currentThread().interrupt();
-            return new AssetResponse(ip, "Fail", "Command Interruption");
+            return new AssetResponse(ip, "失败", "线程中断");
         }
     }
 }

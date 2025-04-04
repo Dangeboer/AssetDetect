@@ -17,13 +17,13 @@ public class PortService {
 
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(ip, port), 1000);
-            return new AssetResponse(asset, "Alive", "Success");
+            return new AssetResponse(asset, "存活", "探测成功");
 
         } catch (SocketTimeoutException e) { // 超时即不存活
-            return new AssetResponse(asset, "Dead", "Time Out");
+            return new AssetResponse(asset, "不存活", "探测超时");
 
         } catch (IOException e) {
-            return new AssetResponse(asset, "Fail", "Unknown Host");
+            return new AssetResponse(asset, "失败", "未知地址");
         }
     }
 }

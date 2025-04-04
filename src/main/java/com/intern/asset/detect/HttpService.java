@@ -25,12 +25,12 @@ public class HttpService {
             // 获取响应代码
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                return new AssetResponse(urlString, "Alive", "Success");
+                return new AssetResponse(urlString, "存活", "探测成功");
             }
-            return new AssetResponse(urlString, "Dead", String.valueOf(responseCode));
+            return new AssetResponse(urlString, "不存活", String.valueOf(responseCode));
 
         } catch (IOException e) { // 网络连接失败或超时 // openConnection(), setRequestMethod("GET"), getResponseCode()
-            return new AssetResponse(urlString, "Fail", "Error Access");
+            return new AssetResponse(urlString, "失败", "连接失败");
         } finally {
             // 确保连接关闭
             if (connection != null) {
