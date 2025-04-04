@@ -28,7 +28,7 @@ public class AuthenticationService {
         this.userRepository = userRepository;
     }
 
-    public UserEntity register(String username, String password, UserRole role) throws UserAlreadyExistException {
+    public void register(String username, String password, UserRole role) throws UserAlreadyExistException {
         // 检查用户名是否已存在（防止重复注册）
         if (userRepository.existsByUsername(username)) {
             throw new UserAlreadyExistException("Username already exists");
@@ -36,7 +36,7 @@ public class AuthenticationService {
 
         // 如果用户名不存在，使用 PasswordEncoder 对明文密码进行加密存储
         UserEntity userEntity = new UserEntity(null, username, passwordEncoder.encode(password), role);
-        return userRepository.save(userEntity); // 创建 UserEntity 对象，并调用 userRepository.save(userEntity) 保存到数据库
+        userRepository.save(userEntity);
     }
 
     // authenticationManager.authenticate() 负责验证用户名和密码：
